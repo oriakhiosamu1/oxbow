@@ -6,6 +6,7 @@ use App\Http\Requests\StoreMenuRequest;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 
 class MenuController extends Controller
 {
@@ -14,7 +15,7 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menu = Menu::all();
+        $menu = Menu::where('branch', Auth::user()->branch)->get();
         return response()->json($menu, Response::HTTP_OK);
     }
 
@@ -43,6 +44,14 @@ class MenuController extends Controller
      */
     public function update(Request $request, Menu $menu)
     {
+        $request->validate([
+            'branch' => 'required|string|max:255',
+            'category' => 'required|string|max:255',
+            'subCategory' => 'required|string|max:255',
+            'name' => 'required|string|max:255',
+            'price' => 'required'
+        ]);
+
         $menu->update([
             'branch' => $request->branch,
             'category' => $request->category,
@@ -61,5 +70,15 @@ class MenuController extends Controller
     {
         $menu->delete();
         return response()->json(['message' => 'Menu Item successfully deleted'], Response::HTTP_OK);
+    }
+
+    public function getMenuByBranch($branch, $category){
+        $menus = Menu::where('branch', $branch)->where('category', $category)->select('name', 'price')->get();
+
+        if($menus->isEmpty()){
+            return response()->json(['message' => "No menu Item found for $branch and $category"], 404);
+        }
+
+        return response()->json($menus);
     }
 }

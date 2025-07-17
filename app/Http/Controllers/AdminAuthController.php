@@ -16,6 +16,7 @@ class AdminAuthController extends Controller
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'branch' => $data['branch'],
             'password' => bcrypt($data['password'])
         ]);
 

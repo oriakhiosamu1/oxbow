@@ -25,8 +25,8 @@ class StoreBookingRequest extends FormRequest
             'name' => 'required',
             'type' => 'required',
             'branch' => 'required',
-            'check_in' => 'required|date_format:Y-m-d\TH:i',
-            'check_out' => 'required|date_format:Y-m-d\TH:i',
+            'check_in' => 'required|date|after_or_equal:today',
+            'check_out' => 'required|date|after:check_in',
             'request' => 'required|string',
             'email' => 'required|email:filter',
             'status' => 'nullable|string|in:Confirmed, Pending, Cancelled, Checked_in, Checked_out'

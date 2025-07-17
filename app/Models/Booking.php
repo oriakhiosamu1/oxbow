@@ -15,7 +15,9 @@ class Booking extends Model
         'check_out',
         'status',
         'request',
-        'email'
+        'email',
+        'amount_paid',
+        'number_of_days',
     ];
 
     // RELATIONSHIP WITH ROOM

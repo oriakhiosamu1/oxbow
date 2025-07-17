@@ -1,3 +1,4 @@
+// src/GlobalStyles.jsx
 import React from 'react';
 
 const GlobalStyles = () => (
@@ -49,6 +50,13 @@ const GlobalStyles = () => (
         }
         .animate-fade-in { animation: fadeIn 0.8s ease-out forwards; }
 
+        @keyframes fadeInFast {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .animate-fade-in-fast { animation: fadeInFast 0.3s ease-out forwards; }
+
+
         @keyframes slideInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -85,6 +93,14 @@ const GlobalStyles = () => (
             to { transform: scale(1); opacity: 1; }
         }
         .animate-scale-in { animation: scaleIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
+        @keyframes scaleInBounce {
+            0% { transform: scale(0.7); opacity: 0; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); }
+        }
+        .animate-scale-in-bounce { animation: scaleInBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+
 
         /* Preloader Animations */
         @keyframes spin-slow-preloader {
@@ -242,7 +258,7 @@ const GlobalStyles = () => (
             background: linear-gradient(90deg, var(--tw-gradient-from, #000) 0%, #3B82F6 20%, var(--tw-gradient-to, #000) 80%, var(--tw-gradient-from, #000) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
+            background-size: 200% 100%; /* Changed from 200% auto */
             animation: textRevealGradient 2s ease-out forwards;
         }
         .dark .animate-text-reveal-gradient {
@@ -318,7 +334,7 @@ const GlobalStyles = () => (
             0%, 100% { transform: translateX(0); }
             50% { transform: translateX(5px); }
         }
-        .group-hover\\:animate-pulse-right:hover {
+        .animate-pulse-right {
             animation: pulseRight 0.7s ease-in-out infinite;
         }
 
@@ -506,6 +522,33 @@ const GlobalStyles = () => (
             0% { transform: scale(1); opacity: 0.5; }
             100% { transform: scale(1.05); opacity: 0.8; }
         }
+
+        /* NEW: Alternative Card Magic Hover (for Dining Section category/branch cards) */
+        .card-magic-hover-alt {
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease-out;
+            overflow: hidden;
+        }
+        .card-magic-hover-alt:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.1) 100%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease-out;
+            z-index: -1;
+        }
+        .card-magic-hover-alt:hover:before {
+            transform: translateX(100%);
+        }
+        .card-magic-hover-alt:hover {
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2), 0 0 15px rgba(66,153,225,0.4);
+        }
+
 
         /* Confetti Burst Animation (for success feedback) */
         @keyframes confettiBurst {

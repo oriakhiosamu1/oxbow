@@ -4,6 +4,8 @@ import AdminLogin from './pages/admin/AdminLogin';
 import Dashboard from './pages/admin/Dashboard';
 import AdminLayout from './layout/admin/AdminLayout';
 import AdminRegister from './pages/admin/AdminRegister';
+import Home from './pages/user/Home';
+import Receipt from './components/user/receipt';
 
 function App() {
 
@@ -15,6 +17,10 @@ function App() {
         <Route path='/admin/signup' element={<AdminRegister />} />
         <Route path='/admin/dashboard' element={<Dashboard />} />
         <Route path='/admin' element={<AdminLayout />} />
+
+        {/* USER ROUTES STARTS HERE */}
+        <Route path='/' element={<Home />} />
+        <Route path='/receipt/:id' element={<Receipt />} />
       </Routes>
     </Router>
   )

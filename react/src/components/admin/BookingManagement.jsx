@@ -204,7 +204,7 @@ const BookingManagement = () => {
         const matchesSearch = searchTerm === '' ||
             booking.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             booking.type.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            booking.requests.toLowerCase().includes(searchTerm.toLowerCase());
+            booking.request.toLowerCase().includes(searchTerm.toLowerCase());
 
         const matchesStatus = filterStatus === '' || booking.status === filterStatus;
         const matchesBranch = filterBranch === '' || booking.branch === filterBranch;
@@ -442,6 +442,8 @@ const BookingManagement = () => {
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Check-out</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Requests</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Number of Days</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Amount Paid</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
@@ -464,6 +466,8 @@ const BookingManagement = () => {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300 max-w-xs overflow-hidden text-ellipsis">{booking.request || 'N/A'}</td>
+                                    <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300 max-w-xs overflow-hidden text-ellipsis">{booking.number_of_days || 'N/A'}</td>
+                                    <td className="px-6 py-4 text-sm text-gray-700 dark:text-gray-300 max-w-xs overflow-hidden text-ellipsis">{booking.amount_paid || 'N/A'}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                         <button
                                             onClick={() => handleEditClick(booking)}

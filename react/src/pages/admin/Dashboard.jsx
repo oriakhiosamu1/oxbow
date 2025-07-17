@@ -22,6 +22,7 @@ const Dashboard = () => {
 
     const NavItem = ({ icon, text, viewName }) => (
         <button
+            style={{ backgroundColor: '#2563eb', color: 'white' }} 
             onClick={() => {
                 setCurrentView(viewName);
                 setIsSidebarOpen(false); // Close sidebar on item click for mobile
@@ -48,7 +49,7 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col md:flex-row">
+        <div className="w-screen h-screen w-full h-full min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col md:flex-row">
             {/* Mobile Header & Toggle */}
             <header className="bg-gray-800 dark:bg-gray-950 p-4 flex justify-between items-center md:hidden shadow-md">
                 <h1 className="text-2xl font-extrabold text-blue-400 font-display">Admin Panel</h1>
@@ -81,7 +82,7 @@ const Dashboard = () => {
                     <NavItem icon={<Newspaper size={20} />} text="Blog" viewName="blog" />
                 </nav>
                 <div className="mt-auto pt-6 border-t border-gray-700 flex-shrink-0">
-                    <button onClick={handleLogout} className="flex items-center w-full px-4 py-3 rounded-lg text-lg font-medium bg-red-600 hover:bg-red-700 text-white transition-colors duration-300 shadow-md transform hover:scale-105 active:scale-95 font-body">
+                    <button  style={{ backgroundColor: '#2563eb', color: 'white' }}  onClick={handleLogout} className="flex items-center w-full px-4 py-3 rounded-lg text-lg font-medium bg-red-600 hover:bg-red-700 text-white transition-colors duration-300 shadow-md transform hover:scale-105 active:scale-95 font-body">
                         <LogOut size={20} />
                         <span className="ml-3">Logout</span>
                     </button>
@@ -101,17 +102,17 @@ const Dashboard = () => {
                             <div className="bg-gray-50 dark:bg-gray-700 p-5 rounded-lg shadow-md border border-gray-200 dark:border-gray-600 transform hover:scale-[1.02] transition-transform duration-200 cursor-pointer" onClick={() => setCurrentView('bookings')}>
                                 <h3 className="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Manage Bookings</h3>
                                 <p className="text-gray-600 dark:text-gray-400 text-sm">View, approve, or cancel reservations.</p>
-                                <button className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm">Go to Bookings</button>
+                                <button style={{ backgroundColor: '#2563eb', color: 'white' }} className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm">Go to Bookings</button>
                             </div>
                             <div className="bg-gray-50 dark:bg-gray-700 p-5 rounded-lg shadow-md border border-gray-200 dark:border-gray-600 transform hover:scale-[1.02] transition-transform duration-200 cursor-pointer" onClick={() => setCurrentView('rooms')}>
                                 <h3 className="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Manage Rooms</h3>
                                 <p className="text-gray-600 dark:text-gray-400 text-sm">Update room availability and details.</p>
-                                <button className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm">Go to Rooms</button>
+                                <button style={{ backgroundColor: '#2563eb', color: 'white' }} className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm">Go to Rooms</button>
                             </div>
                             <div className="bg-gray-50 dark:bg-gray-700 p-5 rounded-lg shadow-md border border-gray-200 dark:border-gray-600 transform hover:scale-[1.02] transition-transform duration-200 cursor-pointer" onClick={() => setCurrentView('dining')}>
                                 <h3 className="text-xl font-semibold text-blue-700 dark:text-blue-300 mb-2">Manage Menu</h3>
                                 <p className="text-gray-600 dark:text-gray-400 text-sm">Update food and drink offerings.</p>
-                                <button className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm">Go to Menu</button>
+                                <button style={{ backgroundColor: '#2563eb', color: 'white' }} className="mt-4 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-md text-sm">Go to Menu</button>
                             </div>
                         </div>
                     </div>

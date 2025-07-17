@@ -69,7 +69,7 @@ class BlogController extends Controller
             'content' => 'required|string',
             'date' => 'required|date',
             'imageUrl' => 'nullable|url',
-            'image' => 'nullable|image|max:2048'
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
         ]);
 
         if($request->hasFile('image')){

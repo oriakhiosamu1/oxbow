@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import '../../styles/tailwind.css';
+import '../../styles/custom.css';
 import ErrorsDisplay from '../../utlis/ErrorDisplay';
 import { useStateContext } from '../../context/ContextProvider';
 import axiosClient from '../../axiosClient/axiosClient';
 import { Link, useNavigate } from 'react-router-dom';
+import {toast, ToastContainer} from 'react-toastify';
 
 const AdminLogin = ({ onLoginSuccess }) => {
     const {setToken, setUser} = useStateContext();
@@ -55,12 +57,13 @@ const AdminLogin = ({ onLoginSuccess }) => {
                 setErrors({
                     email: [response.data.message]
                 })
+                toast('Invalid Credentials');
             }
         })
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-gray-950 text-white p-4">
+        <div className="w-screen h-screen w-full h-full min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 to-gray-950 text-white p-4">
             <div className="bg-gray-800 bg-opacity-90 backdrop-blur-md p-8 sm:p-10 rounded-3xl shadow-2xl w-full max-w-md border border-blue-700 animate-fade-in-up transform hover:scale-[1.01] transition-transform duration-300">
                 <h2 className="text-4xl sm:text-5xl font-extrabold text-center text-blue-400 mb-8 font-display leading-tight animate-text-wave-reveal">
                     Admin Login
@@ -82,7 +85,7 @@ const AdminLogin = ({ onLoginSuccess }) => {
 
                     <ErrorsDisplay errors={errors} />
 
-                    <button type="submit" className="w-full bg-blue-600 text-white py-3 rounded-xl text-xl font-semibold hover:bg-blue-700 transition-colors duration-300 shadow-lg transform hover:scale-105 active:scale-95 flex items-center justify-center animate-pulse-button group relative overflow-hidden magic-btn-hover" disabled={isLoading}>
+                    <button type="submit" style={{ backgroundColor: '#2563eb', color: 'white' }} className="w-full bg-blue-600 text-white py-3 rounded-xl text-xl font-semibold hover:bg-blue-700 transition-colors duration-300 shadow-lg transform hover:scale-105 active:scale-95 flex items-center justify-center animate-pulse-button group relative overflow-hidden magic-btn-hover" disabled={isLoading}>
                         {isLoading ? (
                             <svg className="animate-spin h-6 w-6 text-white mr-3" viewBox="0 0 24 24">
                                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -94,6 +97,7 @@ const AdminLogin = ({ onLoginSuccess }) => {
                     </button>
                 </form>
                 <small>Create new Admin user <Link to='/admin/signup'>Here...</Link> </small>
+                <ToastContainer />
             </div>
         </div>
     );

@@ -65,6 +65,10 @@ const BlogManagement = () => {
         setCurrentPost(null);
     }
 
+    // USING FORM DATA INSTEAD ===============================================================================================================================
+    // const formData = new FormData();
+    // formData.append("title", )
+
     // Handle Add/Edit form submission===========================================================================================================================================
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -72,11 +76,24 @@ const BlogManagement = () => {
 
         // UPDATES A PARTICULAR POST ======================================================================================================================
         if(currentPost !==null && currentPost !== undefined && currentPost !== ''){
-            axiosClient.put(`/admin/blog/update/${currentPost}`, form, {
+
+            const formData = new FormData();
+            formData.append('_method', 'PUT');
+            formData.append("title", form.title);
+            formData.append("excerpt", form.excerpt);
+            formData.append("content", form.content);
+            formData.append("date", form.date);
+            if(form.image instanceof File){
+                formData.append("image", form.title);
+            }
+
+
+            axiosClient.put(`/admin/blog/update/${currentPost}`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             })
+            // axiosClient.put(`/admin/blog/update/${currentPost}`, form)
             .then((data) => {
                 console.log(data);
                 window.location.reload();

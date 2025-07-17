@@ -8,6 +8,8 @@ use App\Models\Room;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -16,7 +18,9 @@ class BookingController extends Controller
      */
     public function index()
     {
-        $booking = Booking::with('room')->latest()->get();
+        $admin = Auth::user();
+
+        $booking = Booking::with('room')->where('branch', $admin->branch)->latest()->get();
 
         return response()->json($booking, 201);
     }
@@ -24,29 +28,55 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBookingRequest $request)
-    {
-        $data = $request->validated();
 
-        // LOGIC TO ENSURE CHECK-IN AND CHECK-OUT IS EXACTLY 24HRS
-        $checkIn =Carbon::createFromFormat('Y-m-d\TH:i', $data['check_in']);
-        $checkOut = Carbon::createFromFormat('Y-m-d\TH:i', $data['check_out']);
+    public function store(StoreBookingRequest $request){
+        $validated = $request->validated();
 
-        if(!$checkOut->equalTo($checkIn->copy()->addDay())){
-            return response()->json(['message' => 'Check-out must be 24hrs after check-in'], 422);
-        }
-
-        // LOGIC TO GET ROOM ID
-        $room= Room::where('branch', $data['branch'])->where('type', $data['type'])->first();
+        // FETCH ROOM USING TYPE AND BRANCH
+        $room = Room::where('type', $validated['type'])->where('branch', $validated['branch'])->first();
 
         if(!$room){
-            return response()->json(['message' => 'No matching room found'], 404);
+            return response()->json(['message' => 'Room type not found at the selected branch'], 404);
         }
 
-        $data['room_id'] = $room->id;
+        if($room->available <= 0){
+            return response()->json(['message' => 'No available rooms for this type at the selected branch'], 422);
+        }
 
-        Booking::create($data);
-        return response()->json(['message' => 'Bookings added!'], Response::HTTP_CREATED);
+        // CALCULATE THE NUMBER OF DAYS
+        $checkIn = Carbon::parse($validated['check_in']);
+        $checkOut = Carbon::parse($validated['check_out']);
+
+        $numberOfDays = $checkIn->diffInDays($checkOut);
+
+        // CALCULATE THE TOTAL AMOUNT
+        $amountPaid = $numberOfDays * $room->price;
+
+        DB::beginTransaction();
+
+        try{
+            Booking::create([
+                'room_id' => $room->id,
+                'name' => $validated['name'],
+                'type' => $validated['type'],
+                'branch' => $validated['branch'],
+                'check_in' => $validated['check_in'],
+                'check_out' => $validated['check_out'],
+                'request' => $validated['request'],
+                'email' => $validated['email'],
+                'amount_paid' => $amountPaid,
+                'number_of_days' => $numberOfDays,
+            ]);
+
+            $room->decrement('available');
+
+            DB::commit();
+
+            return response()->json(['message' => 'Booking Successful'], 201);
+        }catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['message' => "Failed to book room.", 'error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -60,38 +90,109 @@ class BookingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreBookingRequest $request, Booking $booking)
-    {
-        $data = $request->validated();
 
-        // LOGIC TO ENSURE CHECK-IN AND CHECK-OUT IS EXACTLY 24HRS
-        $checkIn =Carbon::createFromFormat('Y-m-d\TH:i', $data['check_in']);
-        $checkOut = Carbon::createFromFormat('Y-m-d\TH:i', $data['check_out']);
+    public function update(StoreBookingRequest $request, Booking $booking){
+        $validated = $request->validated();
 
-        if(!$checkOut->equalTo($checkIn->copy()->addDay())){
-            return response()->json(['message' => 'Check-out must be 24hrs after check-in'], 422);
+        DB::beginTransaction();
+
+        try{
+            // FETCH ROOM USING TYPE AND BRANCH
+            $room = Room::where('type', $validated['type'])->where('branch', $validated['branch'])->first();
+
+            if(!$room){
+                return response()->json(['message' => 'Room type not found at the selected branch'], 404);
+            }
+
+            // CALCULATE THE NUMBER OF DAYS
+            $checkIn = Carbon::parse($validated['check_in']);
+            $checkOut = Carbon::parse($validated['check_out']);
+
+            $numberOfDays = $checkIn->diffInDays($checkOut);
+
+            // CALCULATE THE TOTAL AMOUNT
+            $amountPaid = $numberOfDays * $room->price;
+
+            $booking->update([
+                'room_id' => $room->id,
+                'name' => $validated['name'],
+                'type' => $validated['type'],
+                'branch' => $validated['branch'],
+                'check_in' => $validated['check_in'],
+                'check_out' => $validated['check_out'],
+                'request' => $validated['request'],
+                'email' => $validated['email'],
+                'amount_paid' => $amountPaid,
+                'number_of_days' => $numberOfDays,
+            ]);
+
+            DB::commit();
+
+            return response()->json(['message' => 'Booking Updated Successful']);
+        }catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['message' => "Failed to update booking.", 'error' => $e->getMessage()], 500);
         }
 
-        // LOGIC TO GET ROOM ID
-        $room= Room::where('branch', $data['branch'])->where('type', $data['type'])->first();
-
-        if(!$room){
-            return response()->json(['message' => 'No matching room found'], 404);
-        }
-
-        $data['room_id'] = $room->id;
-
-        $booking->update($data);
-        return response()->json(['message' => 'Bookings updated successfully!'], Response::HTTP_OK);
     }
 
     /**
      * Remove the specified resource from storage.
      */
+
     public function destroy(Booking $booking)
     {
-        $booking->delete();
+        DB::beginTransaction();
 
-        return response()->json(['message' => 'Booking deleted successfully'], 200);
+        try{
+            $room = Room::where('id', $booking->room_id)->first();
+            if($room){
+                $room->increment('available');
+            }
+
+            $booking->delete();
+            DB::commit();
+
+            return response()->json(['message' => 'Booking deleted successfully']);
+        }catch(\Exception $e){
+            DB::rollBack();
+            return response()->json(['message' => 'An error occured while trying to delete booking', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    
+    public function checkAvailability(Request $request){
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'check_in' => 'required|date',
+            'check_out' => 'required|date|after:check_in',
+            'branch' => 'required|string',
+            'type' => 'required|string',
+        ]);
+
+        $checkIn =Carbon::parse($validated['check_in']);
+        $checkOut =Carbon::parse($validated['check_out']);
+        $numberOfDays = $checkIn->diffInDays($checkOut);
+
+        $room = Room::where('branch', $validated['branch'])->where('type', $validated['type'])->where('available', '>', 0)->first();
+
+        if(!$room){
+            return response()->json(['message' => 'No Available room found'], 404);
+        }
+
+        $amountToPay = $room->price * $numberOfDays;
+
+        return response()->json([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'check_in' => $validated['check_in'],
+            'check_out' => $validated['check_out'],
+            'branch' => $validated['branch'],
+            'type' => $validated['type'],
+            'room' => $room,
+            'number_of_days' => $numberOfDays,
+            'amountToPay' => $amountToPay
+        ]);
     }
 }
