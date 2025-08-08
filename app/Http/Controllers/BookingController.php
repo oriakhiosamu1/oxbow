@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreBookingRequest;
+use App\Mail\BookingCheckedOut;
 use App\Models\Booking;
 use App\Models\Room;
 use Carbon\Carbon;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -21,6 +23,10 @@ class BookingController extends Controller
         $admin = Auth::user();
 
         $booking = Booking::with('room')->where('branch', $admin->branch)->latest()->get();
+
+        $this->autoCheckIn();
+
+        $this->autoCheckOut();
 
         return response()->json($booking, 201);
     }
@@ -194,5 +200,37 @@ class BookingController extends Controller
             'number_of_days' => $numberOfDays,
             'amountToPay' => $amountToPay
         ]);
+    }
+
+    public function autoCheckOut(){
+        $today = Carbon::today();
+
+        $bookings = Booking::where('status', '!=', 'Checked-Out')->whereDate('check_out', '<=', $today)->get();
+
+        foreach($bookings as $booking){
+            $booking->status = 'Checked-Out';
+            $booking->save();
+
+            Room::where('id', $booking->room_id)->increment('available');
+
+            logger("Booking ID {$booking->id} checked out.");
+
+            Mail::to($booking->email)->send(new BookingCheckedOut($booking));
+        }
+
+        return response()->json("");
+    }
+
+    public function autoCheckIn(){
+        $today = Carbon::today();
+
+        $bookings = Booking::where('status', '!=', 'Checked-Out')->whereDate('check_in', '>=', $today)->get();
+
+        foreach($bookings as $booking){
+            $booking->status = 'Checked-In';
+            $booking->save();
+        }
+
+        return response()->json("");
     }
 }

@@ -16,8 +16,9 @@ class PayStackController extends Controller
     public function verifyPayment(Request $request){
         $reference = $request->reference;
         $myObject = $request->myObject;
+        $branch = $myObject['branch'];
 
-        $paystackSecret = env('PAYSTACK_SECRET_KEY');
+        $paystackSecret = $branch === 'swali' ? env('SWALI_PAYSTACK_SECRET_KEY') : env('GBARANTORU_PAYSTACK_SECRET_KEY');
 
         // VERIFY PAYMENT FROM PAYSTACK ============================================================================================================================
         $response = Http::withToken($paystackSecret)->get("https://api.paystack.co/transaction/verify/{$reference}");

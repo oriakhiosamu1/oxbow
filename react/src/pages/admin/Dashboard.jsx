@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Home, BedSingle, Utensils, Image, MessageCircle, CalendarDays, Newspaper, LogOut, Menu, X } from 'lucide-react';
 import '../../styles/tailwind.css';
 
@@ -17,8 +17,16 @@ import '../../styles/tailwind.css'
 const Dashboard = () => {
     const [currentView, setCurrentView] = useState('overview'); // Default view
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State for mobile sidebar
-    const {setUser, setToken} = useStateContext();
+    const {setUser, setToken, token} = useStateContext();
     const navigate = useNavigate();
+
+    // BOUNCE BACK USERS IF TOKEN IS NOT IN LOCALSTORAGE =========================================================================
+    useEffect(()=>{
+        if(!token){
+            return navigate('/admin/signin');
+        }
+    }, []);
+    // BOUNCE BACK USERS IF TOKEN IS NOT IN LOCALSTORAGE =========================================================================
 
     const NavItem = ({ icon, text, viewName }) => (
         <button

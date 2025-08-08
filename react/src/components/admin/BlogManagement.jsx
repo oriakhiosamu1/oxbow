@@ -30,7 +30,6 @@ const BlogManagement = () => {
         excerpt: '',
         content: '',
         date: '',
-        image: null,
         imageUrl: ''
     });
 
@@ -51,15 +50,6 @@ const BlogManagement = () => {
         });
     }
 
-    // HANDLES IMAGE UPLOAD ===========================================================================================================================================
-    function handleImageChange(e){
-        const file = e.target.files[0];
-
-        setForm((prev)=>{
-            return {...prev, image: file}
-        });
-    }
-
     // CLEARS FORM ===========================================================================================================================================
     function clearForm(){
         setCurrentPost(null);
@@ -77,23 +67,7 @@ const BlogManagement = () => {
         // UPDATES A PARTICULAR POST ======================================================================================================================
         if(currentPost !==null && currentPost !== undefined && currentPost !== ''){
 
-            const formData = new FormData();
-            formData.append('_method', 'PUT');
-            formData.append("title", form.title);
-            formData.append("excerpt", form.excerpt);
-            formData.append("content", form.content);
-            formData.append("date", form.date);
-            if(form.image instanceof File){
-                formData.append("image", form.title);
-            }
-
-
-            axiosClient.put(`/admin/blog/update/${currentPost}`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            })
-            // axiosClient.put(`/admin/blog/update/${currentPost}`, form)
+            axiosClient.put(`/admin/blog/update/${currentPost}`, form)
             .then((data) => {
                 console.log(data);
                 window.location.reload();
@@ -292,17 +266,6 @@ const BlogManagement = () => {
                                 onChange={handleChange}
                                 className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500"
                                 placeholder="e.g., https://example.com/blog-image.jpg"
-                            />
-                        </div>
-                        <div className="md:col-span-2">
-                            <label htmlFor="image" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Blog Image (Optional)</label>
-                            <input
-                                type="file"
-                                name="image"
-                                onChange={handleImageChange}
-                                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="e.g., https://example.com/blog-image.jpg"
-                                accept='image/*'
                             />
                         </div>
                         <div className="md:col-span-2 flex justify-end space-x-4 mt-4">

@@ -1,4 +1,4 @@
-// src/GlobalStyles.jsx
+// src/utlis/GlobalStyles.jsx
 import React from 'react';
 
 const GlobalStyles = () => (
@@ -25,7 +25,7 @@ const GlobalStyles = () => (
         }
 
         .btn-primary {
-            @apply bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 border-2 border-blue-500 dark:border-blue-600;
+            @apply bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full shadow-lg transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-blue-300 border-2 border-blue-500;
         }
 
         /* Accent colors */
@@ -33,14 +33,14 @@ const GlobalStyles = () => (
         .bg-accent-500 { background-color: #FF6B6B; }
         .hover\\:text-accent-500:hover { color: #FF6B6B; }
         .hover\\:border-accent-400:hover { border-color: #FFA3A3; }
-        .dark\\:hover\\:border-accent-600:hover { border-color: #CC4E4E; }
+
 
         .card {
-            @apply bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden transition-all duration-300 ease-in-out transform border border-gray-200 dark:border-gray-700;
+            @apply bg-white rounded-2xl shadow-xl overflow-hidden transition-all duration-300 ease-in-out transform border border-gray-200;
         }
 
         .section-header {
-            @apply font-extrabold text-blue-800 dark:text-blue-400 text-center;
+            @apply font-extrabold text-blue-800 text-center;
         }
 
         /* Custom Animations */
@@ -94,12 +94,7 @@ const GlobalStyles = () => (
         }
         .animate-scale-in { animation: scaleIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
 
-        @keyframes scaleInBounce {
-            0% { transform: scale(0.7); opacity: 0; }
-            50% { transform: scale(1.05); opacity: 1; }
-            100% { transform: scale(1); }
-        }
-        .animate-scale-in-bounce { animation: scaleInBounce 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        /* Removed @keyframes popInBounce and its class */
 
 
         /* Preloader Animations */
@@ -217,23 +212,8 @@ const GlobalStyles = () => (
         .animate-pop-in.delay-700 { animation-delay: 0.7s; }
         .animate-pop-in.delay-800 { animation-delay: 0.8s; }
 
-        @keyframes popInBounce {
-            0% { opacity: 0; transform: scale(0.5); }
-            80% { transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1); }
-        }
-        .animate-pop-in-bounce { animation: popInBounce 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards; }
 
-        /* Hero Section Gradient Overlay */
-        @keyframes heroGradientOverlay {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .animate-hero-gradient-overlay {
-            background-size: 400% 400%;
-            animation: heroGradientOverlay 15s ease infinite;
-        }
+        /* Removed @keyframes heroGradientOverlay */
 
         /* Text wave effect for hero heading */
         @keyframes textWave {
@@ -248,37 +228,8 @@ const GlobalStyles = () => (
             animation: textWave 2s cubic-bezier(0.42, 0, 0.58, 1) infinite;
         }
 
-        /* Text Reveal with Gradient for section headers */
-        @keyframes textRevealGradient {
-            0% { background-position: 0% 50%; opacity: 0; }
-            50% { background-position: 100% 50%; opacity: 1; }
-            100% { background-position: 200% 50%; opacity: 1; }
-        }
-        .animate-text-reveal-gradient {
-            background: linear-gradient(90deg, var(--tw-gradient-from, #000) 0%, #3B82F6 20%, var(--tw-gradient-to, #000) 80%, var(--tw-gradient-from, #000) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% 100%; /* Changed from 200% auto */
-            animation: textRevealGradient 2s ease-out forwards;
-        }
-        .dark .animate-text-reveal-gradient {
-            background: linear-gradient(90deg, var(--tw-gradient-from, #fff) 0%, #60A5FA 20%, var(--tw-gradient-to, #fff) 80%, var(--tw-gradient-from, #fff) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        /* Custom delay for hero text to blend with previous animation */
-        @keyframes textWaveReveal {
-            0% { background-position: -200% 0; }
-            50% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        .animate-text-wave-reveal {
-            background: linear-gradient(90deg, rgba(255,255,255,0) 0%, #FFFFFF 20%, rgba(255,255,255,0) 80%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-size: 200% 100%;
-            animation: textWaveReveal 4s ease-out infinite;
-        }
+        /* Removed @keyframes textRevealGradient and .animate-text-reveal-gradient */
+        /* Removed @keyframes textWaveReveal and .animate-text-wave-reveal */
 
 
         @keyframes scaleUp {
@@ -353,18 +304,7 @@ const GlobalStyles = () => (
         }
         .animate-float-subtle-light { animation: floatSubtleLight 2s ease-in-out infinite; }
 
-        /* Shimmer effect for background overlays on hover */
-        @keyframes shimmerBg {
-            0% { background-position: -200% 0; }
-            100% { background-position: 200% 0; }
-        }
-        .animate-shimmer-bg {
-            background-image: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 20%, rgba(255,255,255,0.5) 60%, rgba(255,255,255,0) 100%);
-            background-size: 200% 100%;
-            animation: shimmerBg 2s infinite linear;
-            visibility: hidden;
-        }
-        .group:hover .animate-shimmer-bg { visibility: visible; }
+        /* Removed @keyframes shimmerBg and .animate-shimmer-bg */
 
         /* Input focus glow */
         @keyframes inputGlow {
@@ -374,7 +314,7 @@ const GlobalStyles = () => (
         }
         .focus\\:animate-input-glow:focus {
             animation: inputGlow 1.5s infinite ease-out;
-            outline: none; /* Remove default outline */
+            outline: none;
         }
 
         /* Subtle background sparkle effect for hero and footer */
@@ -414,7 +354,7 @@ const GlobalStyles = () => (
             z-index: 1;
             transition: all 0.3s ease-out;
             overflow: hidden;
-            border-radius: 9999px; /* Ensure rounded shape */
+            border-radius: 9999px;
         }
         .magic-btn-hover:before {
             content: '';
@@ -444,15 +384,13 @@ const GlobalStyles = () => (
         .magic-btn-hover:hover:after {
             height: 100%;
         }
-        /* New: Liquid/Ripple effect on button hover/click */
         .magic-btn-hover:hover {
-            transform: scale(1.05); /* Slight scale on hover */
-            box-shadow: 0 0 20px rgba(66, 153, 225, 0.7); /* Glow effect */
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(66, 153, 225, 0.7);
         }
         .magic-btn-hover:active {
-            transform: scale(0.98); /* Slight press effect */
+            transform: scale(0.98);
         }
-        /* Inner circle ripple effect */
         .magic-btn-hover span.relative.z-10:after {
             content: '';
             position: absolute;
@@ -479,16 +417,16 @@ const GlobalStyles = () => (
             position: relative;
             overflow: hidden;
             transform-style: preserve-3d;
-            perspective: 1000px; /* Define perspective for 3D */
+            perspective: 1000px;
             transition: transform 0.5s ease-out, box-shadow 0.5s ease-out, border-color 0.5s ease-out;
-            border: 2px solid transparent; /* Base for animated border */
+            border: 2px solid transparent;
         }
         .card-magic-hover:hover {
-            transform: scale(1.03) translateY(-5px) rotateX(2deg) rotateY(2deg); /* Subtle 3D tilt */
-            box-shadow: 0 15px 30px rgba(0,0,0,0.3), 0 0 20px rgba(66,153,225,0.5); /* Enhanced shadow with glow */
-            border-image: linear-gradient(45deg, #60A5FA, #9333ea, #EF4444); /* Multi-color border */
+            transform: scale(1.03) translateY(-5px) rotateX(2deg) rotateY(2deg);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.3), 0 0 20px rgba(66,153,225,0.5);
+            border-image: linear-gradient(45deg, #60A5FA, #9333ea, #EF4444);
             border-image-slice: 1;
-            animation: borderGlow 2s infinite alternate; /* Animates the border glow */
+            animation: borderGlow 2s infinite alternate;
         }
 
         /* Animated border for cards */
@@ -500,7 +438,7 @@ const GlobalStyles = () => (
         }
 
 
-        .card-magic-hover:before { /* Radial background shimmer */
+        .card-magic-hover:before {
             content: '';
             position: absolute;
             top: -50%;
@@ -642,7 +580,7 @@ const GlobalStyles = () => (
         /* Nav Link Underline Glow */
         .nav-link-underline-glow {
             background: linear-gradient(90deg, #60A5FA, #9333ea, #EF4444);
-            filter: blur(2px); /* Soften the glow */
+            filter: blur(2px);
         }
         .group:hover .nav-link-underline-glow {
             animation: navLinkUnderlineGlow 0.5s ease-out forwards;
@@ -651,6 +589,23 @@ const GlobalStyles = () => (
             from { transform: scaleX(0); }
             to { transform: scaleX(1); }
         }
+
+        /* NEW: Booking Confirmation Glow */
+        @keyframes bookingConfirmGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.5); }
+            50% { box-shadow: 0 0 30px rgba(16, 185, 129, 0.8), 0 0 50px rgba(16, 185, 129, 0.3); }
+        }
+        .booking-confirm-glow {
+            animation: bookingConfirmGlow 3s infinite alternate;
+        }
+
+        /* NEW: Pulse Button Red (for cancel button) */
+        @keyframes pulseButtonRed {
+            0% { transform: scale(1); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+            50% { transform: scale(1.02); box-shadow: 0 8px 12px rgba(0,0,0,0.2); }
+            100% { transform: scale(1); box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        }
+        .animate-pulse-button-red { animation: pulseButtonRed 2s infinite ease-in-out; }
     `}</style>
 );
 

@@ -16,9 +16,9 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+
 Route::post('/signup', [AdminAuthController::class, 'signup']);
 Route::post('/signin', [AdminAuthController::class, 'signin']);
-// Route::post('/logout', [AdminAuthController::class, 'logout'])->middleware('auth:sanctum');
 
 Route::middleware('auth:sanctum')->group(function(){
     // ADMIN ROUTES FOR ROOMS MANAGEMENT====================================================================================
@@ -82,8 +82,8 @@ Route::middleware('auth:sanctum')->group(function(){
 Route::post('/contact', [SendContactMessage::class, 'sendMailToAdmin']); #HANDLES SENDING OF CONTACT FORM TO ADMIN
 Route::get('/user/reviews/index', [ReviewController::class, 'index']); #FETCHES ALL REVIEWS TO THE USER PAGE
 Route::get('/user/blogs/index', [BlogController::class, 'index']); #FETCHES ALL BLOG POSTS TO THE USER PAGE
-Route::get('/user/gallery/index', [GalleryController::class, 'index']); #FETCHES ALL GALLERY IMAGES TO THE USER PAGE
 Route::get('/rooms/branch/{branch}', [RoomController::class, 'getRoomsByBranch']); #FETCHES ROOMS BY BRANCH
 Route::get('/menu/branch/{branch}/category/{category}', [MenuController::class, 'getMenuByBranch']); #FETCHES MENU ITEM BY BRANCH AND CATEGORY
 Route::post('/check/room/availability', [BookingController::class, 'checkAvailability']); #CHECKS IF ROOM IS AVAILABLE AND RETURNS ROOM DATA
 Route::post('/verify/payment', [PayStackController::class, 'verifyPayment']); #VERIFIES PAYSTACK PAYMENT AND CREATES NEW BOOKING
+Route::get('/user/gallery/{branch}', [GalleryController::class, 'fetchImagesByBranch']); #FETCHES ALL GALLERY IMAGES TO THE USER PAGE

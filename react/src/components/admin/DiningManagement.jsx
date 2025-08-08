@@ -30,6 +30,7 @@ const DiningManagement = () => {
     const [isAdding, setIsAdding] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [currentMenuItem, setCurrentMenuItem] = useState(null);
+    let count = 1;
 
     // FORM FIELDS ========================================================================================================================
     const [menu, setMenu] = useState({
@@ -78,12 +79,10 @@ const DiningManagement = () => {
             return [
                 { value: 'soft-drinks', label: 'Soft Drinks' },
                 { value: 'beers', label: 'Beers' },
-                { value: 'energy-drinks', label: 'Energy Drinks' },
-                { value: 'gin-vodka-rum-tequila', label: 'Gin/Vodka/Rum/Tequila' },
-                { value: 'cream', label: 'Cream' },
-                { value: 'bitters', label: 'Bitters' },
+                { value: 'Juices', label: 'Juices' },
+                { value: 'Cocktails', label: 'Cocktails' },
+                { value: 'Spirits', label: 'Spirits' },
                 { value: 'wines', label: 'Wines' },
-                { value: 'whiskey-liquor', label: 'Whiskey/Liquor' },
             ];
         }
         return [];
@@ -331,7 +330,8 @@ const DiningManagement = () => {
                         <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
                             {filteredItems.map((item) => (
                                 <tr key={item.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150">
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{item.id}</td>
+                                    {/* <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{item.id}</td> */}
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{count++}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{item.branch}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 capitalize">{item.category}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300 capitalize">{item.subCategory.replace(/-/g, ' ')}</td>

@@ -7,6 +7,7 @@ use App\Models\Menu;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class MenuController extends Controller
 {
@@ -73,12 +74,70 @@ class MenuController extends Controller
     }
 
     public function getMenuByBranch($branch, $category){
-        $menus = Menu::where('branch', $branch)->where('category', $category)->select('name', 'price')->get();
-
-        if($menus->isEmpty()){
-            return response()->json(['message' => "No menu Item found for $branch and $category"], 404);
-        }
-
+        $menus = Menu::where('branch', $branch)->where('category', $category)->orderBy('subCategory')->get()->groupBy('subCategory');
         return response()->json($menus);
     }
+
+    // public function getMenuByBranch(Request $request)
+    // {
+    //     $branch = $request->query('branch');        // e.g., Swali
+    //     $category = $request->query('category');    // e.g., Food or Drink
+    //     $subcategory = $request->query('subcategory'); // optional
+
+    //     // Define subcategory orders
+    //     $foodSubcategories = [
+    //         'Protein',
+    //         'Swallow',
+    //         'Soup',
+    //         'Soup, Swallow and Protein',
+    //         'Rice and noodle',
+    //         'Breakfast',
+    //         'National dishes',
+    //         'Special dishes',
+    //     ];
+
+    //     $drinkSubcategories = [
+    //         'Soft Drinks',
+    //         'Beers',
+    //         'Wines',
+    //         'Juices',
+    //         'Cocktails',
+    //         'Spirits',
+    //     ];
+
+    //     // Choose subcategory order based on category
+    //     if (strtolower($category) === 'drink') {
+    //         $subcategoryOrder = $drinkSubcategories;
+    //     } else {
+    //         $subcategoryOrder = $foodSubcategories; // Default to food
+    //     }
+
+    //     $query = DB::table('menus');
+
+    //     // Filter by branch if provided
+    //     if ($branch) {
+    //         $query->where('branch', $branch);
+    //     }
+
+    //     // Filter by category if provided
+    //     if ($category) {
+    //         $query->where('category', $category);
+    //     }
+
+    //     // Filter by subcategory if provided
+    //     if ($subcategory) {
+    //         $query->where('subcategory', $subcategory);
+    //     } else {
+    //         $query->whereIn('subcategory', $subcategoryOrder);
+    //     }
+
+    //     // Fetch and order results
+    //     $menus = $query
+    //         ->orderByRaw("FIELD(subcategory, '" . implode("','", $subcategoryOrder) . "')")
+    //         ->orderBy('name', 'asc')
+    //         ->get()
+    //         ->groupBy('subcategory');
+
+    //     return response()->json($menus);
+    // }
 }

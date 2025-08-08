@@ -9,6 +9,7 @@ class Gallery extends Model
     protected $fillable = [
         'url',
         'alt',
-        'image'
+        'image',
+        'branch'
     ];
 }

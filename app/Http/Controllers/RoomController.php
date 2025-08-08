@@ -20,7 +20,7 @@ class RoomController extends Controller
     }
 
     public function index(){
-        $rooms = Room::where('branch', Auth::user()->branch)->get();
+        $rooms = Room::where('branch', Auth::user()->branch)->orderBy('price', 'asc')->get(); #FETCHES ROOM BASED ON PRICES FROM SMALLEST TO BIGGEST
         return response()->json($rooms, Response::HTTP_OK);
     }
 
@@ -40,7 +40,7 @@ class RoomController extends Controller
     }
 
     public function getRoomsByBranch($branch){
-        $rooms = Room::where('branch', $branch)->get();
+        $rooms = Room::where('branch', $branch)->orderBy('price', 'asc')->get();
 
         if($rooms->isEmpty()){
             return response()->json(['message' => 'No rooms found for this branch'], 404);

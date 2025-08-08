@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 import AdminLogin from './pages/admin/AdminLogin';
 import Dashboard from './pages/admin/Dashboard';
 import AdminLayout from './layout/admin/AdminLayout';
@@ -21,6 +21,8 @@ function App() {
         {/* USER ROUTES STARTS HERE */}
         <Route path='/' element={<Home />} />
         <Route path='/receipt/:id' element={<Receipt />} />
+
+        <Route path='*' element={<Navigate to='/' />} />
       </Routes>
     </Router>
   )

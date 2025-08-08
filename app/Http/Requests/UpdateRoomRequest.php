@@ -27,6 +27,12 @@ class UpdateRoomRequest extends FormRequest
             'price' => 'required',
             'available' => 'required',
             'description' => 'required',
+            'imageUrl' => 'required|url',
+            'imageUrl1' => 'required|url',
+            'imageUrl2' => 'required|url',
+            'imageUrl3' => 'required|url',
+            'imageUrl4' => 'required|url',
+            'features' => 'nullable|string',
         ];
     }
 }

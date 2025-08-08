@@ -12,5 +12,11 @@ class Room extends Model
         'price',
         'available',
         'description',
+        'imageUrl',
+        'imageUrl1',
+        'imageUrl2',
+        'imageUrl3',
+        'imageUrl4',
+        'features',
     ];
 }

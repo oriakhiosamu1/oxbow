@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Gallery;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
@@ -13,7 +14,7 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        $galleries = Gallery::all();
+        $galleries = Gallery::where('branch', Auth::user()->branch)->get();
 
         return response()->json($galleries, 200);
     }
@@ -24,17 +25,11 @@ class GalleryController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'url' => 'nullable|string',
-            'alt' => 'nullable|string',
-            'image' => 'nullable|image|mimes:png,jpg,jpeg'
+            'url' => 'required|url',
+            'alt' => 'required|string',
+            'image' => 'nullable|image|mimes:png,jpg,jpeg',
+            'branch' => 'required|string'
         ]);
-
-        if($request->hasFile('image')){
-            $data['image'] = $request->file('image')->store('galleries', 'public');
-        }
-
-        // $path = $request->file('image')->store('galleries', 'public');
-        // $data['image'] = $path;
 
         Gallery::create($data);
 
@@ -73,5 +68,12 @@ class GalleryController extends Controller
         $gallery->delete();
 
         return response()->json(['message' => 'Gallery Item deleted successfully'], 200);
+    }
+
+    public function fetchImagesByBranch($branch)
+    {
+        $galleries = Gallery::where('branch', $branch)->get();
+
+        return response()->json($galleries);
     }
 }

@@ -86,7 +86,13 @@ const RoomManagement = () => {
             type: '',
             price: '',
             available: '',
-            description: ''
+            description: '',
+            imageUrl: '',
+            imageUrl1: '',
+            imageUrl2: '',
+            imageUrl3: '',
+            imageUrl4: '',
+            features: '',
         });
     };
 
@@ -207,10 +213,73 @@ const RoomManagement = () => {
                                 <option value="Gbarantoru">Gbarantoru</option>
                             </select>
                         </div>
+
                         <div>
                             <label htmlFor="type" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Room Type Name</label>
                             <input type="text" name="type" value={addNewRoom.type} onChange={handleChange} className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., Deluxe Room, Luxury Suite" required/>
                         </div>
+
+                        <div>
+                            <label htmlFor="imageUrl" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Image URL</label>
+                            <input
+                                type="url"
+                                name="imageUrl"
+                                value={addNewRoom.imageUrl}
+                                onChange={handleChange}
+                                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="e.g., https://example.com/blog-image.jpg"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="imageUrl1" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Image URL (Optional)</label>
+                            <input
+                                type="url"
+                                name="imageUrl1"
+                                value={addNewRoom.imageUrl1}
+                                onChange={handleChange}
+                                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="e.g., https://example.com/blog-image.jpg"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="imageUrl2" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Image URL (Optional)</label>
+                            <input
+                                type="url"
+                                name="imageUrl2"
+                                value={addNewRoom.imageUrl2}
+                                onChange={handleChange}
+                                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="e.g., https://example.com/blog-image.jpg"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="imageUrl3" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Image URL (Optional)</label>
+                            <input
+                                type="url"
+                                name="imageUrl3"
+                                value={addNewRoom.imageUrl3}
+                                onChange={handleChange}
+                                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="e.g., https://example.com/blog-image.jpg"
+                            />
+                        </div>
+
+                        <div>
+                            <label htmlFor="imageUrl4" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Image URL (Optional)</label>
+                            <input
+                                type="url"
+                                name="imageUrl4"
+                                value={addNewRoom.imageUrl4}
+                                onChange={handleChange}
+                                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="e.g., https://example.com/blog-image.jpg"
+                            />
+                        </div>
+
+
                         <div>
                             <label htmlFor="price" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Price (₦)</label>
                             <input type="number" name="price" value={addNewRoom.price} onChange={handleChange} className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 40000" required min="0" />
@@ -222,6 +291,10 @@ const RoomManagement = () => {
                         <div className="md:col-span-2">
                             <label htmlFor="description" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Description</label>
                             <textarea name="description" value={addNewRoom.description} onChange={handleChange} className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500 resize-y" placeholder="A brief description of the room type..." rows="3" required ></textarea>
+                        </div>
+                        <div className="md:col-span-2">
+                            <label htmlFor="features" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Features (Optional)</label>
+                            <textarea name="features" value={addNewRoom.features} onChange={handleChange} className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500 resize-y" placeholder="A brief description of the room type..." rows="3" ></textarea>
                         </div>
 
                         <div className="md:col-span-2 flex justify-end space-x-4 mt-4">
@@ -250,6 +323,7 @@ const RoomManagement = () => {
                         <thead className="bg-gray-100 dark:bg-gray-600 border-b border-gray-200 dark:border-gray-500">
                             <tr>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Branch</th>
+                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Image</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Room Type</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Price (₦)</th>
                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Available</th>
@@ -261,6 +335,15 @@ const RoomManagement = () => {
                             {rooms.map((room) => (
                                 <tr key={room.id} className="hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-150">
                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-gray-100">{room.branch}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap text-sm">
+
+                                        {room.imageUrl ? (
+                                            <img src={room.imageUrl} alt={room.type} className="h-12 w-12 object-cover rounded-md" onError={(e) => { e.target.onerror = null; e.target.src=''; }} />
+                                        ) : (
+                                            <span className="text-gray-500 dark:text-gray-400">N/A</span>
+                                        )}
+                                        
+                                    </td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{room.type}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">₦{room.price.toLocaleString()}</td>
                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300">{room.available}</td>

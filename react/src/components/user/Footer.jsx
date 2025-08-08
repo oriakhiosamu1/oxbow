@@ -32,25 +32,13 @@ const Footer = () => {
                     <h3 className="text-2xl font-bold text-blue-300 mb-5 font-display animate-fade-in-up delay-400">Get in Touch</h3>
                     <ul className="space-y-3">
                         <li className="flex items-center justify-center md:justify-start footer-contact-item">
-                            <MapPin size={20} className="mr-3 text-blue-400" />
-                            <span>10 Julius Berger Road, Swali, Yenegoa. Nigeria.</span>
-                        </li>
-                        <li className="flex items-center justify-center md:justify-start footer-contact-item">
                             <Phone size={20} className="mr-3 text-blue-400" />
                             <span>0913 177 6509</span>
                         
                         </li>
                         <li className="flex items-center justify-center md:justify-start footer-contact-item">
                             <Mail size={20} className="mr-3 text-blue-400" />
-                            <span>admin@oxbowlakehotel.com.ng</span>
-                        </li>
-                        <li className="flex items-center justify-center md:justify-start footer-contact-item">
-                            <Mail size={20} className="mr-3 text-blue-400" />
-                            <span>info@oxbowlakehotel.com.ng</span>
-                        </li>
-                        <li className="flex items-center justify-center md:justify-start footer-contact-item">
-                            <Mail size={20} className="mr-3 text-blue-400" />
-                            <span>support@oxbowlakehotel.com.ng</span>
+                            <span>info@oxbowlakehotel.com.ng, admin@oxbowlakehotel.com.ng, support@oxbowlakehotel.com.ng</span>
                         </li>
                     </ul>
                 </div>

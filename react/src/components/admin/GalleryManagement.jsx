@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PlusCircle, Trash2, Image, Loader2, CheckCircle2, XCircle } from 'lucide-react';
 import axiosClient from '../../axiosClient/axiosClient';
 import ErrorsDisplay from '../../utlis/ErrorDisplay';
+import {toast, ToastContainer} from 'react-toastify';
 
 const GalleryManagement = () => {
     // Initial dummy data ================================================================================================================================
@@ -21,7 +22,6 @@ const GalleryManagement = () => {
     // STATE VARIABLES =====================================================================================================================================
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
-    const [message, setMessage] = useState('');
     const [isAdding, setIsAdding] = useState(false);
 
     // GALLERY MANAGEMENT FORM DATA========================================================================================================================
@@ -29,6 +29,7 @@ const GalleryManagement = () => {
         url: '',
         alt: '',
         image: null,
+        branch: ''
     });
 
     // FUNCTION THAT HANDLES FORM INPUTS========================================================================================================================
@@ -48,11 +49,9 @@ const GalleryManagement = () => {
             console.log(data);
             setImages(data);
             setLoading(false);
-            // setBlogPosts(data);
         })
         .catch((error)=>{
             console.log(error);
-            // setCurrentPost(null);
             setLoading(false);
         })
     }, [])
@@ -66,14 +65,15 @@ const GalleryManagement = () => {
 
     // Clear form fields========================================================================================================================
     const clearForm = () => {
-        // setImageUrl('');
-        // setImageAlt('');
+        setForm({
+            url:"",
+            alt:"",
+        });
     };
 
     // Handle Add Image form submission========================================================================================================================
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setMessage('');
         setError('');
         setLoading(true);
 
@@ -85,6 +85,7 @@ const GalleryManagement = () => {
         .then((data) => {
             console.log(data);
             window.location.reload();
+            setLoading(false);
         })
         .catch((error)=>{
             console.log(error);
@@ -144,23 +145,25 @@ const GalleryManagement = () => {
                     <h3 className="text-2xl font-semibold text-blue-700 dark:text-blue-300 mb-6 font-display">Add New Gallery Image</h3>
                     <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-6">
                         <div>
+                            <label htmlFor="branch" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Branch</label>
+                            <select
+                                name="branch"
+                                value={form.branch}
+                                onChange={handleChange}
+                                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500"
+                                required
+                            >
+                                <option value="">Select Branch</option>
+                                <option value="Swali">Swali</option>
+                                <option value="Gbarantoru">Gbarantoru</option>
+                            </select>
+                        </div>
+                        <div>
                             <label htmlFor="url" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Image URL</label>
                             <input
                                 type="url"
                                 name="url"
                                 value={form.url}
-                                onChange={handleChange}
-                                className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="e.g., https://example.com/new-image.jpg"
-                            />
-                        </div>
-
-                        <div>
-                            <label htmlFor="image" className="block text-gray-700 dark:text-gray-300 font-medium mb-2">Image (Optional)</label>
-                            <input
-                                type="file"
-                                name="image"
-                                accept='image/*'
                                 onChange={handleChange}
                                 className="w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-600 text-gray-900 dark:text-gray-100 focus:ring-blue-500 focus:border-blue-500"
                                 placeholder="e.g., https://example.com/new-image.jpg"
@@ -209,13 +212,14 @@ const GalleryManagement = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {images.map((image) => (
                         <div key={image.id} className="relative bg-gray-100 dark:bg-gray-700 rounded-lg shadow-md overflow-hidden group">
+                            
                             <img
-                                // src={image.image}
-                                src={`http://localhost:8000/storage/${image.image}`}
+                                src={image.url}
                                 alt={image.alt}
                                 className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
                                 onError={(e) => { e.target.onerror = null; e.target.src = 'https://placehold.co/400x300/CCCCCC/333333?text=Image+Error'; }} // Fallback for broken images
                             />
+
                             <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 <button
                                     onClick={() => handleDeleteClick(image.id)}
@@ -230,6 +234,8 @@ const GalleryManagement = () => {
                     ))}
                 </div>
             )}
+
+            <ToastContainer />
         </div>
     );
 };

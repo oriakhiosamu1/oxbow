@@ -29,19 +29,19 @@ class BlogController extends Controller
             'content' => 'required|string',
             'date' => 'required|date',
             'imageUrl' => 'nullable|url',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+            // 'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        $path = $request->file('image')->store('blogs', 'public');
-        // $validated['imageUrl'] = asset('storage/'. $path);
+        // $path = $request->file('image')->store('blogs', 'public');
+        // // $validated['imageUrl'] = asset('storage/'. $path);
 
-        $blog = Blog::create([
+        Blog::create([
             'title' => $request->title,
             'excerpt' =>  $request->excerpt,
             'content' =>  $request->content,
             'date' =>  $request->date,
-            'imageUrl' =>  asset('storage/'. $path),
-            'image' =>  $path
+            'imageUrl' =>  $request->imageUrl,
+            // 'image' =>  $path
         ]);
         return response()->json(['message' => 'Blog created successfully'], 201);
     }
@@ -69,25 +69,14 @@ class BlogController extends Controller
             'content' => 'required|string',
             'date' => 'required|date',
             'imageUrl' => 'nullable|url',
-            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048'
         ]);
-
-        if($request->hasFile('image')){
-            if($blog->image){
-                Storage::disk('public')->delete($blog->image);
-            }
-        }
-
-        $path = $request->file('image')->store('blogs', 'public');
-        // $validated['imageUrl'] = asset('storage/'. $path);
 
         $blog->update([
             'title' => $request->title,
             'excerpt' =>  $request->excerpt,
             'content' =>  $request->content,
             'date' =>  $request->date,
-            'imageUrl' =>  asset('storage/'. $path),
-            'image' =>  $path
+            'imageUrl' =>  $request->imageUrl,
         ]);
         return response()->json(['message' => 'Blog updated successfully'], 200);
     }
